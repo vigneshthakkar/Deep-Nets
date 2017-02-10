@@ -85,6 +85,6 @@ def train_neural_network(x):
 			for j in range(1,10):
 				if predictlabels[i][j]>greatest: greatest,index=predictlabels[i][j],j
 			if testlabels[i][index]==1: correct+=1
-		print(correct)
+		print(correct/10000*100,'%')
 
 train_neural_network(x)
