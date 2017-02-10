@@ -1,10 +1,2 @@
 # Neural-Networks
 Exploring Neural Networks using Sci-Kit Learn and TensorFlow
-
-Some of my early attempts to understand the Neural Networks model as a learning tool.
-
-IrisClassifier explores the possibility of finding non-linear relations between the features and the class values. It uses Sci-Kit Learn's MLPClassifier It uses a 2 layer Deep Feed-Forward Neural Network for classification. The data is divided into 120 training samples, which contains 40 samples of each flower type, and 30 test samples, which consists of 10 samples of each flower type. While testing period too, the network learns. It uses backpropergation algorithm with optimizer (adam) for learning. Its accuracy varies from 97% to 100%.
-
-MNIST_neural is a small program that trains a 2 layer deep feed forward neural network on the famous MNIST training images and the tests the network with the test images. Accuracy of 97.14% is obtained.
-
-MNIST_tensorflow is an example of an implementation of a 3 layer deep neural network on TensorFlow which can recognize handwritten digits after being trained by the MNIST training images and gets about 96.23% accuracy.
