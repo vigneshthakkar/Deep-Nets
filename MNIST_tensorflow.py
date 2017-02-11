@@ -89,7 +89,7 @@ while ch=='y':
 					greatest,index=predictlabels[i][0],0
 					for j in range(1,10):
 						if predictlabels[i][j]>greatest: greatest,index=predictlabels[i][j],j
-					if testlabels[i][j]==1: correct+=1
+					if testlabels[i][index]==1: correct+=1
 				accuracy=correct/100
 				print('The accuracy is', accuracy,'%')
 				char=input('Do you want to increase the number of epochs? (y/n) : ')
