@@ -37,33 +37,29 @@ print('Test images loaded...')
 
 ch='y'
 while ch=='y':
-	n=int(input('Enter the depth of the neural Network : '))
+	print('The neural network is 3 layer deep...')
 	nodes=[]
-	for i in range(n):
-		print('Enter the number of nodes in layer', i+1,': ',end='')
-		nodes.append(int(input()))
-	
+	for i in range(3): nodes[i]=int(input('Enter the number of nodes in layer '+str(i+1)))
 	
 	x=tf.placeholder('float', [None,784])
 	y=tf.placeholder('float')
 	
-	layer_param=[]
-	for i in range(n):
-		if i==0: layer_param.append({'weights': tf.Variable(tf.random_normal([784,nodes[i]])), 'biases': tf.Variable(tf.random_normal([nodes[i]]))})
-		else: layer_param.append({'weights': tf.Variable(tf.random_normal([nodes[i-1],nodes[i]])), 'biases': tf.Variable(tf.random_normal([nodes[i]]))})
-	layer_param.append({'weights': tf.Variable(tf.random_normal([nodes[n-1],10])), 'biases': tf.Variable(tf.random_normal([10]))})
+	weights={'l1': tf.Variable(tf.random_normal([784,nodes[0]])),
+		 'l2': tf.Variable(tf.random_normal([nodes[0],nodes[1]])),
+		 'l3': tf.Variable(tf.random_normal([nodes[1],nodes[2]])),
+		 'out': tf.Variable(tf.random_normal([nodes[2],10]))}
+	
+	biases={'l1': tf.Variable(tf.random_normal([nodes[0]])),
+		 'l2': tf.Variable(tf.random_normal([nodes[1]])),
+		 'l3': tf.Variable(tf.random_normal([nodes[2]])),
+		 'out': tf.Variable(tf.random_normal([10]))}
 	
 	def neural_network(x):
-		layeroutput=tf.placeholder('float')
-		for i in range(n+1):
-			if i==0:
-				layeroutput=tf.add(tf.matmul(x,layer_param[i]['weights']),layer_param[i]['biases'])
-				layeroutput=tf.nn.relu(layeroutput)
-			elif i==n: layeroutput=tf.add(tf.matmul(layeroutput,layer_param[i]['weights']),layer_param[i]['biases'])
-			else: 
-				layeroutput=tf.add(tf.matmul(layeroutput,layer_param[i]['weights']),layer_param[i]['biases'])
-				layeroutput=tf.nn.relu(layeroutput)
-		return layeroutput
+		l1=tf.nn.relu(tf.add(tf.matmul(x,weights['l1']),biases['l1']))
+		l2=tf.nn.relu(tf.add(tf.matmul(l1,weights['l2']),biases['l2']))
+		l3=tf.nn.relu(tf.add(tf.matmul(l2,weights['l3']),biases['l3']))
+		out=tf.add(tf.matmul(l3,weights['out']),biases['out'])
+		return out
 	
 	predict_y=neural_network(x)
 	cost=tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(predict_y,y))
@@ -94,4 +90,4 @@ while ch=='y':
 				print('The accuracy is', accuracy,'%')
 				char=input('Do you want to increase the number of epochs? (y/n) : ')
 		c=input('Try with some other number of epoch? (y/n) : ')
-	ch=input('Try with some other configuration of the Neural Network? (y/n) : ')
+	ch=input('Do you want to retrain the Neural Network? (y/n) : ')
