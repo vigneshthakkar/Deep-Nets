@@ -27,7 +27,7 @@ for image in images:
 		for item in row:
 			a.append(item)
 	testimages.append(a)
-labels=mnist.train_labels()
+labels=mnist.test_labels()
 testlabels=[]
 for label in labels:
 	a=[0,0,0,0,0,0,0,0,0,0]
@@ -69,18 +69,21 @@ optimize=tf.train.AdamOptimizer().minimize(loss)
 
 with tf.Session() as sess:
 	sess.run(tf.global_variables_initializer())
-	epochs=100
+	epochs=10
 	print('Training the Neural Network. This might take some time. Please wait...')
 	for epoch in range(epochs):
-		sess.run([optimize],feed_dict={x:trainimages,y:trainlabels})
+		for i in range(600):
+			epochimages,epochlabels=trainimages[100*i:100*(i+1)],trainlabels[100*i:100*(i+1)]
+			sess.run([optimize],feed_dict={x:epochimages,y:epochlabels})
 		print('Epoch',epoch+1,'of',epochs,'completed...')
 	print('Neura Network Trained...')
 	print('Testing the Neural network...')
-	predictlabels=sess.run([predict_y],feed_dict={x:testimages})
 	correct=0
-	for i in range(10000):
-		greatest,index=predictlabels[i][0],0
-		for j in range(1,10):
-			if predictlabels[i][j]>greatest: greatest,index=predictlabels[i][j],j
-		if testlabels[index]==1: correct+=1
-	print('Accuracy :',correct/100,'%')
+	for a in range(100):
+		prediction=sess.run(predict_y,feed_dict={x:testimages[100*a:100*(a+1)]})
+		for i in range(100):
+			greatest,index=prediction[i][0],0
+			for j in range(1,10):
+				if greatest<prediction[i][j]: greatest,index=prediction[i][j],j
+			if testlabels[100*a+i][index]==1: correct+=1
+	print('The accuracy is ',correct/100,'%')
