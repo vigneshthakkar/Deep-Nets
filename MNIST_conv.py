@@ -69,7 +69,7 @@ optimize=tf.train.AdamOptimizer().minimize(loss)
 
 with tf.Session() as sess:
 	sess.run(tf.global_variables_initializer())
-	epochs=10
+	epochs=int(input('Enter the number of epochs : '))
 	print('Training the Neural Network. This might take some time. Please wait...')
 	for epoch in range(epochs):
 		for i in range(600):
