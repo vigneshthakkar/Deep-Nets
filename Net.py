@@ -2,7 +2,7 @@ import tensorflow as tf
 
 class Net:
 
-    def __init__(self,sess,numofclasses=2,colored=True):
+    def __init__(self,sess,numofclasses,colored):
 
         self.numofclasses=numofclasses
         self.sess=sess
