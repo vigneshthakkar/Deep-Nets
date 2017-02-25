@@ -1,9 +1,10 @@
 import tensorflow as tf
+from Net import Net
 
-class ZFNet:
+class ZFNet(Net):
 
-    def __init__(self,sess,n,numofclasses=2,colored=True):
-        
+    def __init__(self,sess,numofclasses=2,colored=True):
+
         super().__init__(sess,numofclasses,colored)
 
         self.weights={
