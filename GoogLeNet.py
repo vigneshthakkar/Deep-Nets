@@ -1,10 +1,11 @@
 import tensorflow as tf
+from Net import Net
 
-class GoogLeNet:
+class GoogLeNet(Net):
 
-    def __init__(self,sess,numofclass=2,colored=True):
+    def __init__(self,sess,numofclasses=2,colored=True):
 
-        super().__init__(sess,numofclasses,colored_
+        super().__init__(sess,numofclasses,colored)
 
         self.weights={'conv1': tf.Variable(tf.random_normal([7,7,self.layer,64])),
 
