@@ -1,6 +1,7 @@
 import tensorflow as tf
+from Net import Net
 
-class ResNet:
+class ResNet(Net):
 
     def __init__(self,sess,numofclasses=2,colored=True):
 
