@@ -1,6 +1,7 @@
 import tensorflow as tf
+from Net import Net
 
-class VGGNet:
+class VGGNet(Net):
 
     def __init__(self,sess,numofclasses=2,colored=True):
 
