@@ -4,12 +4,7 @@ class GoogLeNet:
 
     def __init__(self,sess,numofclass=2,colored=True):
 
-        self.numofclass = numofclass
-
-        self.sess = sess
-
-        self.layer = 3
-        if colored == False: self.layer = 1
+        super().__init__(sess,numofclasses,colored_
 
         self.weights={'conv1': tf.Variable(tf.random_normal([7,7,self.layer,64])),
 
@@ -210,35 +205,3 @@ class GoogLeNet:
         fc2=tf.add(tf.matmul(fc1,self.weights['fc2']),self.biases['fc2'])
         
         return fc2
-
-    def prediction(self):
-        return self.network()
-
-    def cost(self):
-        predict_y=self.prediction()
-        return tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(predict_y,self.y))
-
-    def train(self,optimizer,learning_rate=0.1):
-        if optimizer=='Adam': return tf.train.AdamOptimizer(learning_rate).minimize(self.cost())
-        elif optimizer=='GradientDescent': return tf.train.GradientDescentOptimizer(learning_rate).minimize(self.cost())
-        elif optimizer=='Optimizer': return tf.train.Optimizer(learning_rate).minimize(self.cost())
-        elif optimizer=='Adadelta': return tf.train.AdadeltaOptimizer(learning_rate).minimize(self.cost())
-        elif optimizer=='Adagrad': return tf.train.AdagradOptimizer(learning_rate).minimize(self.cost())
-        elif optimizer=='AdagradDAO': return tf.train.AdagradDAOptimizer(learning_rate).minimize(self.cost())
-        elif optimizer=='Momentum': return tf.train.MomentumOptimizer(learning_rate).minimize(self.cost())
-        elif optimizer=='Ftrl': return tf.train.FtrlOptimizer(learning_rate).minimize(self.cost())
-        elif optimizer=='ProximalGradientDescent': return tf.train.ProximalGradientDescentOptimizer(learning_rate).minimize(self.cost())
-        elif optimizer=='ProximalAdagrad': return tf.train.ProximalAdagradOptimizer(learning_rate).minimize(self.cost())
-        elif optimizer=='RMSProp': return tf.train.RMSPropOptimizer(learning_rate).minimize(self.cost())
-
-    def initialize(self):
-        self.sess.run(tf.initialize_all_variables())
-
-    def fit(self,x,y,epochs=100,batch_size=100,optimizer='Optimizer',learning_rate=0.1):
-        for epoch in range(epochs):
-                for batch in range(int(len(x)/batch_size)):
-                    epochx,epochy=x[batch_size*batch:batch_size*(batch+1)],y[batch_size*batch:batch_size*(batch+1)]
-                    self.sess.run(self.train(optimizer,learning_rate),feed_dict={self.x:epochx,self.y:epochy})
-
-    def predict(self,x):
-        return self.sess.run(self.prediction(),feed_dict={self.x:x})
